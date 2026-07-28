@@ -1,0 +1,11 @@
+{
+  "name": "frjr17-skills",
+  "owner": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" },
+  "plugins": [
+    {
+      "name": "harden-web-security",
+      "source": "./harden-web-security",
+      "description": "Audit + harden web apps against OWASP-Top-10-and-beyond attacks."
+    }
+  ]
+}
