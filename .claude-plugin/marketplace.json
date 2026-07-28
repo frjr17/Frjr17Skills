@@ -6,6 +6,11 @@
       "name": "harden-web-security",
       "source": "./harden-web-security",
       "description": "Audit + harden web apps against OWASP-Top-10-and-beyond attacks."
+    },
+    {
+      "name": "panama-tech-compliance",
+      "source": "./panama-tech-compliance",
+      "description": "Verify + implement compliance with Panamanian tech law (Ley 81, firma electrónica, SFEP, ACODECO, sector regimes)."
     }
   ]
 }

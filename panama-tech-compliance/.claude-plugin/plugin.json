@@ -1,0 +1,6 @@
+{
+  "name": "panama-tech-compliance",
+  "version": "0.1.0",
+  "description": "Verify and implement compliance with Panamanian technology law — Ley 81 (datos personales/ANTAI), Ley 51 (firma electrónica), factura electrónica (SFEP/DGI), Ley 45 (ACODECO), plus fintech, health, public-sector and accessibility regimes. Audits code, emits a trámite checklist for what code can't satisfy.",
+  "author": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" }
+}
