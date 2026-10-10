@@ -9,7 +9,7 @@ Agent Skills marketplace. Ships:
 ## Install — Option B: plugin (recommended, versioned, updatable)
 
 ```
-/plugin marketplace add frjr17/frjr17-skills
+/plugin marketplace add frjr17/Frjr17Skills
 /plugin install harden-web-security@frjr17-skills
 /plugin install panama-tech-compliance@frjr17-skills
 /plugin install workflow@frjr17-skills
@@ -17,13 +17,11 @@ Agent Skills marketplace. Ships:
 
 Then `/harden-web-security` in Claude Code, or just ask to "harden security" / "run a security review". For the compliance skill: `/panama-tech-compliance`, or ask about "Ley 81", "protección de datos", "factura electrónica", or "cumplimiento legal en Panamá". Update later with `/plugin update`.
 
-> Replace `frjr17/frjr17-skills` with your actual `owner/repo` after pushing to GitHub.
-
 ## Install — Option A: plain clone (any tool that reads the Agent Skills format)
 
 ```bash
-git clone https://github.com/frjr17/frjr17-skills /tmp/frjr17-skills
-cp -r /tmp/frjr17-skills/harden-web-security/skills/harden-web-security \
+git clone https://github.com/frjr17/Frjr17Skills /tmp/Frjr17Skills
+cp -r /tmp/Frjr17Skills/harden-web-security/skills/harden-web-security \
       ~/.claude/skills/harden-web-security
 ```
 
