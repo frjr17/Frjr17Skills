@@ -3,7 +3,7 @@ name: plan-phases
 description: Turn a proposal, a goal or a review request into a phased plan file in the repo (docs/PLAN_<NAME>.md) with a decisions table, then stop for the user's answers. Use when asked to plan, audit-then-plan, or "divide this into phases".
 argument-hint: "<proposal file | goal | what to review>"
 disable-model-invocation: true
-effort: high
+effort: xhigh
 ---
 
 # Plan in phases
