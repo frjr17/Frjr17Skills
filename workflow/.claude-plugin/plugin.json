@@ -1,0 +1,6 @@
+{
+  "name": "workflow",
+  "version": "0.1.0",
+  "description": "Plan big work in phases (/plan-phases) and carry them out to a definition of done (/phase).",
+  "author": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" }
+}
