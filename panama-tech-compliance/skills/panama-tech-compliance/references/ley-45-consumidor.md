@@ -1,5 +1,7 @@
 # Ley 45 de 2007 — Protección al Consumidor y Defensa de la Competencia
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 Consumer protection and competition. Enforced by **ACODECO** (Autoridad de Protección al Consumidor y Defensa de la Competencia). Applies to B2C sales — including a foreign-hosted site selling into Panama.
 
 Load this whenever there's a checkout, a subscription, pricing, advertising claims, or terms of service shown to consumers.
@@ -45,5 +47,23 @@ Most of this is UI and copy, which makes it easy to audit and easy to have gotte
 **Trial-to-paid**: explicit pre-charge notice and a clear conversion date shown at signup and before the first charge.
 
 **T&C draft** ⚠ marked for counsel review — never presented as filing-ready.
+
+## Cobranza — collecting debts and sending payment reminders
+
+**Applies when** the system tracks what consumers owe (installments, contracts, loans, subscriptions in arrears) and contacts them about it — reminders, overdue notices, collection messages by WhatsApp, SMS, email or calls. Collection practices toward consumers are regulated; ⚠ PIN the governing articles of Ley 45 and any ACODECO resolution on gestión de cobro before citing any rule below as law. Treat the list as *what to check*, not as settled requirements.
+
+Audit:
+- **Who is contacted** → only the debtor (and a guarantor where the contract names one). Messages to relatives, employers, references or group chats disclose the debt to third parties — a consumer issue **and** a Ley 81 disclosure.
+- **When and how often** → sending windows (no late-night or very early sends), a cap on reminders per period, and no repeat sends after the debtor has paid or disputed. ⚠ PIN any statutory hours or frequency limit; absent one, the app should still enforce a configurable window and cap.
+- **What the message says** → identifies the creditor, the amount and due date accurately, and how to pay or dispute; no threats, no false legal consequences ("legal action today", "you'll be reported" when nobody will), no shaming, no tone implying an authority that isn't there.
+- **Accuracy** → the amount shown matches the ledger at send time (payments applied, partial payments reflected); a reminder for an already-paid installment is a finding.
+- **Dispute and stop path** → the debtor can say "already paid" or dispute, the reply reaches a human, and reminders pause while it's open.
+- **Evidence** → every message logged (to whom, when, content/template version, channel), so the creditor can show what was and wasn't sent.
+
+Grep: reminder schedulers/cron/queues, message templates and their variables, send-window or rate-limit logic (often missing), contact fields beyond the debtor's own (`referencia`, `familiar`, `contacto_alterno`), and what happens to scheduled reminders when a payment is registered.
+
+Implementation spec: send window + per-debtor cap enforced in the scheduler (not the UI); reminders cancelled or recomputed on payment; a `paused` state on dispute; a send log keyed to template version. Template copy ⚠ drafted for counsel review.
+
+Cross-reference: debtor data, phone numbers and messaging providers → `ley-81-datos-personales.md`.
 
 Cross-reference: consumer data collected at checkout → `ley-81-datos-personales.md`.

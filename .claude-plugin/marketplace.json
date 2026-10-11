@@ -11,6 +11,11 @@
       "name": "panama-tech-compliance",
       "source": "./panama-tech-compliance",
       "description": "Verify + implement compliance with Panamanian tech law (Ley 81, firma electrónica, SFEP, ACODECO, sector regimes)."
+    },
+    {
+      "name": "workflow",
+      "source": "./workflow",
+      "description": "Plan big work in phases (/plan-phases) and carry them out to a definition of done (/phase)."
     }
   ]
 }

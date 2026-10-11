@@ -1,6 +1,6 @@
 ---
 name: harden-web-security
-description: Harden web applications against attacks (OWASP Top 10 and beyond). Threat-models the app, audits code AND deployed surface for vulnerabilities, dynamically verifies the top findings, and reports each with severity, the attacker technique, and a concrete fix. Use when the user asks to harden security, run a security review/audit or pentest-prep, find vulnerabilities, "make this secure", or asks about XSS / SQLi / CSRF / SSRF / IDOR / auth / session / multi-tenancy / security-headers hardening.
+description: Harden web applications against attacks (OWASP Top 10 and beyond). Threat-models the app, audits code AND deployed surface for vulnerabilities, dynamically verifies the top findings, and reports each with severity, the attacker technique, and a concrete fix. Use when the user asks to harden security, run a security review/audit or pentest-prep, find vulnerabilities, "make this secure", or asks about XSS / SQLi / CSRF / SSRF / IDOR / auth / session / multi-tenancy / security-headers hardening, database access rules, cloud IAM, or CI/CD pipeline security.
 ---
 
 # Harden Web Security
@@ -21,9 +21,10 @@ Only for **authorized** work: the user's own app, a pentest engagement, a CTF, o
 2. **Recon the deployed surface** (see below) — the metadata leaks and forgotten endpoints that precede every real intrusion.
 3. **Map the app.** Stack, framework, routes/handlers, auth & tenancy model, data stores, uploads, outbound requests, and every place user input flows. Grep the sinks, don't guess.
 4. **Audit against the checklist.** Trace untrusted input to each sink; check authz at every object access.
-5. **Dynamically verify the top findings.** You cannot confirm IDOR, broken authz, or a rate-limit bypass by reading code — send the request as user A for user B's object, replay without the token, tamper the ID. Reading finds candidates; sending confirms them.
+5. **Dynamically verify the top findings.** You cannot confirm IDOR, broken authz, or a rate-limit bypass by reading code — send the request as user A for user B's object, replay without the token, tamper the ID. Reading finds candidates; sending confirms them. **Where:** a local dev server, the platform's local emulator, or a non-production environment, with test accounts you create. Production only when the user says so in this conversation, and then read-only requests with your own test accounts — never against real users' data.
 6. **Report each finding as:** `SEVERITY | attack | file:line (or endpoint) | why it's exploitable | the fix`. Rank Critical → Low. Note chains explicitly (two Lows that combine into a Critical).
-7. **Fix after reporting.** Apply low-risk hardenings (headers, cookie flags, dep bumps, output encoding) directly when okayed. Behavior-changing fixes (authz, session, crypto) — propose the diff, let the user approve. Leave a **regression test that reproduces the attack** and asserts it now fails (e.g. request test expecting 403, or that a payload is escaped).
+7. **Save the report in the repo** as `docs/SECURITY_AUDIT_<YYYY-MM-DD>.md` (template below) and commit it on its own, so it survives the session. Then offer to turn the findings into a phased plan (`/plan-phases docs/SECURITY_AUDIT_<date>.md` when that skill is installed) instead of fixing everything in one go.
+8. **Fix after reporting.** Apply low-risk hardenings (headers, cookie flags, dep bumps, output encoding) directly when okayed. Behavior-changing fixes (authz, session, crypto) — propose the diff, let the user approve. Leave a **regression test that reproduces the attack** and asserts it now fails (e.g. request test expecting 403, or that a payload is escaped).
 
 Do **not** auto-fix before showing findings. A wrong "hardening" that breaks auth is worse than the report.
 
@@ -43,6 +44,8 @@ Do **not** auto-fix before showing findings. A wrong "hardening" that breaks aut
 - SSRF: `fetch`/`requests`/`curl`/`http.get`/webhook/PDF/image-fetch with a URL from user input.
 - Deserialization: `pickle`, `unserialize`, `readObject`, `yaml.load`, `Marshal.load`.
 - Secrets: hardcoded keys/tokens, secrets in client JS, keys in git history.
+- Access-rule files: database/storage security rules, row-level-security policies, bucket policies — when clients reach the data store directly, these files ARE the authorization layer.
+- Cloud & pipeline config: IAM bindings, service-account roles, function/endpoint invoker settings, CI workflow files and their `permissions`/secrets/triggers.
 - Config: debug on, verbose errors, missing security headers, permissive CORS, wildcard IAM.
 
 ## Attack → Hardening reference
@@ -65,6 +68,25 @@ Do **not** auto-fix before showing findings. A wrong "hardening" that breaks aut
 - **Business logic** (no grep signature — reason about the flow): negative/huge quantities, price/coupon/refund tampering, skipping a step in a checkout/KYC/approval flow, replaying a one-time action, quantity vs. inventory races. Enforce invariants server-side; re-validate the whole state on the final action, not per step.
 - **Path traversal / LFI / RFI** → canonicalize the resolved path and confirm it's under the allowed root; never build include/file paths from raw input.
 - **Mass assignment** → allowlist bindable fields; never bind `role`/`isAdmin`/`price`/`tenant_id` from the request body.
+
+### Managed backends & cloud (BaaS, serverless, IAM)
+Apps where the browser or mobile client talks **directly** to a managed data store (BaaS SDKs, row-level-security databases, signed-URL object storage) move authorization out of server routes and into **declarative access rules**. Audit those rules as the main authz layer:
+- **Access rules** → deny by default; every read/write rule checks the caller's identity **and** ownership/tenant of the document or row; validate the shape of writes (allowed fields, types, sizes, immutable owner/role/tenant fields) — rules are where mass assignment happens in these apps. Rules have their own test harness or local emulator in most platforms: leave a test per rule that asserts user A cannot read or write user B's data.
+- **Client-side config is public** → API keys/project IDs shipped to the client are identifiers, not secrets; the controls are the access rules, key restrictions (allowed origins/apps/APIs) and app-attestation where the platform offers it. Any truly secret key in the client bundle is Critical.
+- **Server-side admin SDKs bypass the rules** → every serverless function or backend using admin/service credentials must do its own authz check; audit them like any server route.
+- **Function/endpoint exposure** → who may invoke each function (public, authenticated, internal only); scheduled/queue-triggered functions must not also be publicly callable.
+- **Sign-in restrictions** → allowlists (emails, domains) enforced server-side or in rules, not only in the UI; disabled sign-in methods actually disabled.
+- **IAM least privilege** → no owner/editor/admin roles on runtime or deploy service accounts; one service account per job; no long-lived JSON keys where keyless federation exists; federation trust (e.g. CI → cloud) scoped to the exact repo **and** branch/environment, not the whole org.
+- **Cost as an attack surface** → unbounded reads, fan-out triggers and public functions turn abuse into a billing incident; quotas, budgets with alerts, and pagination are security controls here.
+
+### CI/CD pipeline
+The pipeline holds deploy credentials, so it is a production entry point.
+- **Workflow permissions** → least-privilege token scopes declared per workflow/job (read-only by default); no write tokens where a job only reads.
+- **Untrusted triggers** → never expose secrets or write tokens to code from forks or bot-opened PRs (`pull_request_target`-style triggers, dependency-update bots); never interpolate PR titles/branch names/commit messages straight into shell steps (script injection).
+- **Third-party actions/steps** → pin by full commit SHA, not a moving tag; review what each one receives.
+- **Deploy gates** → production deploys only from the protected branch, through a protected environment (required reviewers or branch restriction), with environment-scoped secrets rather than repo-wide ones.
+- **Secrets hygiene** → masked in logs, never echoed, short-lived (OIDC/keyless federation) over stored long-lived keys; build artifacts and caches must not contain them.
+- **Supply chain** → lockfile with hash pinning, SCA/dependency audit in the pipeline, dependency-update bots scoped so they cannot reach deploy secrets.
 
 ### Authentication
 - **Credential stuffing / brute force / password spraying** → rate limit + lockout/backoff, MFA, breached-password check, CAPTCHA on abuse. Also rate-limit **registration and password-reset** (enumeration + abuse vectors).
@@ -107,12 +129,12 @@ Do **not** auto-fix before showing findings. A wrong "hardening" that breaks aut
 - **Prototype pollution / DOM clobbering** → reject dangerous keys; `Object.create(null)` for maps.
 - **Open redirect** → allowlist redirect targets; no raw user URL in `Location`.
 - **Reverse tabnabbing** → `rel="noopener noreferrer"` on `target=_blank`.
-- **Supply chain** → lockfile with **hash pinning**, SRI on external scripts, SCA in CI, audit third-party JS; lock CI: no secrets to `pull_request_target`, pin action versions by SHA.
+- **Supply chain (client)** → SRI on external scripts, audit third-party JS; pipeline side → see *CI/CD pipeline*.
 
 ### Crypto & data exposure
 - **Weak crypto** → AES-GCM (authenticated) not ECB; modern hashes; per-message IV/nonce.
 - **Padding/timing oracles** → authenticated encryption; **constant-time comparison** for secrets/tokens.
-- **Secrets** → out of code and client bundles; secrets manager/env; rotate leaked keys; scrub git history.
+- **Secrets** → out of code and client bundles; secrets manager/env. A leaked key is fixed by **rotating it** — that is the fix, and it comes first. Scrubbing git history is optional cleanup that needs a force-push and breaks every clone: propose it, never do it without the user's explicit OK.
 - **Randomness** → CSPRNG for tokens/IDs, never `Math.random`/`rand()`.
 - **Data in errors/logs** → generic errors in prod; scrub PII/secrets from logs; no stack traces to users.
 - **TLS** → HSTS (preload), TLS 1.2+, strong ciphers, redirect HTTP→HTTPS.
@@ -153,4 +175,4 @@ Use the framework's helper (helmet / Flask-Talisman / Django SecurityMiddleware)
   Regression: test asserts A→B order id returns 404.
 ```
 
-Finish with a prioritized summary: Critical/High first, quick wins (headers, cookie flags, dep bumps) called out separately, and any **chains** where combined low-severity issues reach Critical.
+The saved `docs/SECURITY_AUDIT_<YYYY-MM-DD>.md` holds: scope and environment tested (what was verified dynamically, against what), the threat model in a few lines, findings in the format above, then the summary. Finish with a prioritized summary: Critical/High first, quick wins (headers, cookie flags, dep bumps) called out separately, and any **chains** where combined low-severity issues reach Critical.

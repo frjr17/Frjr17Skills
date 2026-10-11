@@ -1,5 +1,7 @@
 # Ley 81 de 2019 + D.E. 285 de 2021 — Protección de Datos Personales
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 Panama's general data-protection regime. In force since **29 March 2021**, regulated by **Decreto Ejecutivo 285 de 28 de mayo de 2021**. Regulator: **ANTAI** (Autoridad Nacional de Transparencia y Acceso a la Información), through its Dirección de Protección de Datos Personales.
 
 This is ~80% of the compliance surface for a typical app. Audit it first and hardest.
@@ -39,7 +41,8 @@ Key structural point most implementations get wrong: the law splits roles into *
 - **Sensitive data**: columns/fields for health, biometrics, ID scans, ethnicity; free-text `notes` fields that inevitably collect them; sensitive values in log lines.
 - **Cross-border**: cloud region config, SaaS vendor list in env/config, CDN, email/SMS providers, LLM API calls with PII in the prompt.
 - **Retention**: any scheduled deletion/anonymization job. Absent → Medium at minimum.
-- **Custodio contracts**: every third party receiving PII needs one — enumerate them from code, hand the list to `tier-3-tramites.md`.
+- **Custodio contracts**: every third party receiving PII needs one — enumerate them from code, hand the list to `tier-3-tramites.md`. For large platforms that don't negotiate (messaging like WhatsApp/Meta, big cloud, email/SMS providers) the instrument is their **standard data-processing terms**, accepted when the account was opened; the to-do is to record which terms, their date/version and link, and what data goes there — not to obtain a bespoke contract. Never report "no signed contract with <platform>" as a finding.
+- **Messaging and phone numbers**: phone numbers are personal data; sending them to a messaging platform is a transfer to a custodio, usually cross-border, and must be in the privacy notice. Checking whether a number has WhatsApp/an account, contact-list sync, or number enrichment is processing with its own purpose — it needs a stated purpose and a basis like any other collection.
 - **Logs**: PII, tokens, and full request bodies in application logs; log retention with no limit.
 - **PII in prompts**: personal data sent to any LLM/AI vendor is both a transfer and a purpose question.
 
