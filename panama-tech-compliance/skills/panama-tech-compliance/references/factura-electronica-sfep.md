@@ -1,5 +1,7 @@
 # Factura Electrónica — SFEP (DGI)
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 The **Sistema de Facturación Electrónica de Panamá**, run by the **Dirección General de Ingresos** (DGI/MEF). The most mechanically checkable obligation in this skill: the output is an XML document that either validates against DGI's rules or doesn't.
 
 Load this when the system invoices or takes payment from Panamanian customers.

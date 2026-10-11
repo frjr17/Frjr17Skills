@@ -1,5 +1,7 @@
 # Ley 51 de 2008 — Documentos y Firmas Electrónicas
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 Defines and regulates electronic documents, electronic signatures, technological document-storage providers, and certification service providers; adopts provisions for e-commerce. Amended by **Ley 82 de 2012** (⚠ PIN the amendment scope). Oversight sits with the **Dirección Nacional de Firma Electrónica** of the **Registro Público de Panamá**.
 
 Load this when the system e-signs anything, accepts signed documents, or keeps documents as legal records.

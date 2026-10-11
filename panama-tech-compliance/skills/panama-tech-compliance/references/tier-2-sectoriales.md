@@ -1,5 +1,7 @@
 # Tier 2 — Sector and adjacent regimes
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 Load the sections that match the system. Each is partly verifiable in code; all article numbers here are **⚠ PIN — fetch before citing**. These sit *on top of* Ley 81, never instead of it.
 
 ---

@@ -1,5 +1,7 @@
 # Tier 3 — Trámites: obligations with no code to audit
 
+> Last verified against source: never — written 2026-07-28 from model knowledge. Every ⚠ PIN value is unconfirmed.
+
 These have no file, no line number, and no fix that can be written. They are **filings, contracts, designations, and registrations**.
 
 **Emit them as a separate checklist, never as code findings.** A "finding" whose fix is "sign a contract" wastes the reader's attention and makes the code findings look padded. Keep the two lists visually distinct in the report.
@@ -17,7 +19,7 @@ The last column is what makes this useful rather than generic: `custodio contrac
 
 ## Data protection (Ley 81 / ANTAI)
 
-- **Custodio (processor) contracts** — one per third party that receives personal data. List them by name from the audit: cloud, email, SMS, analytics, CRM, support desk, payment processor, LLM/AI vendors, offshore contractors. Trigger: any PII leaving the responsable's control.
+- **Custodio (processor) contracts** — one per third party that receives personal data. List them by name from the audit: cloud, email, SMS, messaging (WhatsApp/Meta), analytics, CRM, support desk, payment processor, LLM/AI vendors, offshore contractors. Trigger: any PII leaving the responsable's control. For platforms with non-negotiable terms the task is *record the accepted data-processing terms* (name, version/date, link, data sent) in the internal policy — a bespoke contract is only a to-do for vendors that actually sign one.
 - **Internal data-protection policy** and records of processing activities — the accountability documentation ANTAI expects to see on inspection.
 - **Privacy notice published and versioned** — the code stores a version pointer (see `ley-81-datos-personales.md`); publishing and legal review are human tasks.
 - **Cross-border transfer safeguards** — the mechanism and any authorization/documentation for each destination the audit found. ⚠ PIN what's required.
