@@ -1,6 +1,6 @@
 {
   "name": "harden-web-security",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Audit + harden web apps against common attacks (OWASP Top 10 and beyond). Reports each finding with severity, attacker technique, and a concrete fix.",
   "author": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" }
 }
