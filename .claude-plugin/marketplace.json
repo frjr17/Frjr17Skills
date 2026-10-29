@@ -15,7 +15,7 @@
     {
       "name": "workflow",
       "source": "./workflow",
-      "description": "Plan big work in phases (/plan-phases) and carry them out to a definition of done (/phase)."
+      "description": "Plan big work in phases (/plan-phases) and carry them out to a definition of done, one or a range at a time (/phase) or all at once (/all-phases)."
     }
   ]
 }
