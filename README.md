@@ -4,7 +4,7 @@ Agent Skills marketplace. Ships:
 
 - **harden-web-security** — audit + harden web apps against OWASP-Top-10-and-beyond attacks. Reports each finding with severity, the attacker technique, and a concrete fix.
 - **panama-tech-compliance** — audit a system against Panamanian technology law (Ley 81 de 2019 / ANTAI, Ley 51 de 2008, factura electrónica / SFEP, Ley 45 de 2007 / ACODECO, plus fintech, health, public-sector and accessibility regimes). Reports code findings separately from the trámites no code can satisfy. Pre-lawyer triage, not legal advice.
-- **workflow** — `/plan-phases` turns a proposal or review into `docs/PLAN_<NAME>.md` with a decisions table; `/phase` carries out a phase or a range to its definition of done (runs on Sonnet).
+- **workflow** — `/plan-phases` turns a proposal or review into `docs/PLAN_<NAME>.md` with a decisions table; `/phase` carries out a phase or a range to its definition of done; `/all-phases` runs every remaining phase of the plan back to back (both run on Sonnet).
 - **commit-prefixes** — enforces English Git commit subjects with approved gitmoji type prefixes and explanatory bodies.
 
 ## Install — Option B: plugin (recommended, versioned, updatable)
@@ -51,7 +51,8 @@ workflow/
 ├── .claude-plugin/plugin.json
 └── skills/
     ├── plan-phases/SKILL.md              # /plan-phases
-    └── phase/SKILL.md                    # /phase (model: sonnet)
+    ├── phase/SKILL.md                    # /phase (model: sonnet)
+    └── all-phases/SKILL.md               # /all-phases (model: sonnet)
 ```
 
 Frjr17Setup's `aiConfig.sh` links every `*/skills/*` folder here into `~/.claude/skills` and
