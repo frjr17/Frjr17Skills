@@ -16,6 +16,11 @@
       "name": "workflow",
       "source": "./workflow",
       "description": "Plan big work in phases (/plan-phases) and carry them out to a definition of done (/phase)."
+    },
+    {
+      "name": "commit-prefixes",
+      "source": "./commit-prefixes",
+      "description": "Enforce English Git commit subjects with approved gitmoji type prefixes and explanatory bodies."
     }
   ]
 }

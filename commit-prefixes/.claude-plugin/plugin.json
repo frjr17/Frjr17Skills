@@ -1,0 +1,6 @@
+{
+  "name": "commit-prefixes",
+  "version": "0.1.0",
+  "description": "Enforce English Git commit subjects with approved gitmoji type prefixes and explanatory bodies.",
+  "author": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" }
+}
