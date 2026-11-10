@@ -1,6 +1,9 @@
 {
   "name": "frjr17-skills",
-  "owner": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" },
+  "owner": {
+    "name": "frjr17",
+    "email": "hernan.valencia@frjr17.com"
+  },
   "plugins": [
     {
       "name": "harden-web-security",
@@ -21,6 +24,11 @@
       "name": "commit-prefixes",
       "source": "./commit-prefixes",
       "description": "Enforce English Git commit subjects with approved gitmoji type prefixes and explanatory bodies."
+    },
+    {
+      "name": "skill-audit",
+      "source": "./skill-audit",
+      "description": "Audit which skills are enabled, off or addable; recommend and order the ones that fit a task; flag duplicates; lint skills; run them all."
     }
   ]
 }

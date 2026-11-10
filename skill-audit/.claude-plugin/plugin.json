@@ -1,0 +1,6 @@
+{
+  "name": "skill-audit",
+  "version": "0.1.0",
+  "description": "Audit enabled, switched-off and catalog skills; recommend up to 10 for a task in run order; flag duplicates; lint skills (health); run every pick in sequence (run-all).",
+  "author": { "name": "frjr17", "email": "hernan.valencia@frjr17.com" }
+}
