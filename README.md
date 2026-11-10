@@ -6,6 +6,7 @@ Agent Skills marketplace. Ships:
 - **panama-tech-compliance** — audit a system against Panamanian technology law (Ley 81 de 2019 / ANTAI, Ley 51 de 2008, factura electrónica / SFEP, Ley 45 de 2007 / ACODECO, plus fintech, health, public-sector and accessibility regimes). Reports code findings separately from the trámites no code can satisfy. Pre-lawyer triage, not legal advice.
 - **workflow** — `/plan-phases` turns a proposal or review into `docs/PLAN_<NAME>.md` with a decisions table; `/phase` carries out a phase or a range to its definition of done; `/all-phases` runs every remaining phase of the plan back to back (both run on Sonnet).
 - **commit-prefixes** — enforces English Git commit subjects with approved gitmoji type prefixes and explanatory bodies.
+- **skill-audit** — reports which skills are enabled, installed but off, or only addable; recommends up to 10 that fit a task, in run order; flags duplicates; lints skills (`health`); and runs every pick in sequence (`run-all`).
 
 ## Install — Option B: plugin (recommended, versioned, updatable)
 
@@ -15,6 +16,7 @@ Agent Skills marketplace. Ships:
 /plugin install panama-tech-compliance@frjr17-skills
 /plugin install workflow@frjr17-skills
 /plugin install commit-prefixes@frjr17-skills
+/plugin install skill-audit@frjr17-skills
 ```
 
 Then `/harden-web-security` in Claude Code, or just ask to "harden security" / "run a security review". For the compliance skill: `/panama-tech-compliance`, or ask about "Ley 81", "protección de datos", "factura electrónica", or "cumplimiento legal en Panamá". Update later with `/plugin update`.
@@ -53,6 +55,12 @@ workflow/
     ├── plan-phases/SKILL.md              # /plan-phases
     ├── phase/SKILL.md                    # /phase (model: sonnet)
     └── all-phases/SKILL.md               # /all-phases (model: sonnet)
+skill-audit/
+├── .claude-plugin/plugin.json
+└── skills/skill-audit/
+    ├── SKILL.md                          # modes: inventory, recommend, health, run-all
+    ├── references/                       # per-surface skill paths; run-all procedure
+    └── scripts/inventory.py              # inventory, keyword scoring, overlaps, lint
 ```
 
 Frjr17Setup's `aiConfig.sh` links every `*/skills/*` folder here into `~/.claude/skills` and
