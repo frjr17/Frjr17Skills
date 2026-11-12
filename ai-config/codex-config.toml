@@ -1,0 +1,10 @@
+service_tier = "default"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
+
+[features]
+memories = true
+
+[memories]
+generate_memories = true
+use_memories = true
