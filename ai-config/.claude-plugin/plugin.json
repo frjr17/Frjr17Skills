@@ -1,0 +1,6 @@
+{
+  "name": "ai-config",
+  "version": "0.1.0",
+  "description": "My rules for Claude Code and Codex, the commit guard (no AI attribution, gitmoji subjects) and the cloud-session start that commits as the developer. No personal data: identity comes from the environment.",
+  "author": { "name": "frjr17" }
+}

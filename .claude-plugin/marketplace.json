@@ -1,8 +1,7 @@
 {
   "name": "frjr17-skills",
   "owner": {
-    "name": "frjr17",
-    "email": "hernan.valencia@frjr17.com"
+    "name": "frjr17"
   },
   "plugins": [
     {
@@ -29,6 +28,11 @@
       "name": "skill-audit",
       "source": "./skill-audit",
       "description": "Audit which skills are enabled, off or addable; recommend and order the ones that fit a task; flag duplicates; lint skills; run them all."
+    },
+    {
+      "name": "ai-config",
+      "source": "./ai-config",
+      "description": "My rules for Claude Code and Codex, the commit guard (no AI attribution, gitmoji) and the cloud-session start that commits as the developer."
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "extraKnownMarketplaces": {
+    "frjr17-skills": {
+      "source": { "source": "github", "repo": "frjr17/Frjr17Skills" }
+    }
+  },
+  "enabledPlugins": {
+    "ai-config@frjr17-skills": true
+  }
+}

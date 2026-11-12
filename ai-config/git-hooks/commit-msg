@@ -1,0 +1,32 @@
+#!/bin/sh
+# Global commit-msg hook (aiConfig.sh sets core.hooksPath to this folder on my machines; the
+# plugin's session start does it in cloud sessions), for me, Claude and Codex:
+#  - refuses a commit whose author or committer is an AI identity;
+#  - drops AI attribution lines and requires a gitmoji subject.
+# `git commit --no-verify` skips it.
+export LC_ALL=C
+msg="$1"
+
+ident="$(git var GIT_AUTHOR_IDENT 2>/dev/null) $(git var GIT_COMMITTER_IDENT 2>/dev/null)"
+if printf '%s' "$ident" | grep -qiE 'noreply@(anthropic|openai)\.com|(^| )(claude|codex) <'; then
+  echo "commit-msg: the author or committer is an AI identity. Commit as the developer:" >&2
+  echo "  git config user.name / user.email (or GIT_COMMIT_NAME and GIT_COMMIT_EMAIL in the cloud environment)," >&2
+  echo "  then fix this commit with: git commit --amend --reset-author" >&2
+  exit 1
+fi
+
+grep -viE '^(co-authored-by:.*(claude|codex|anthropic|openai)|claude-session:)|generated with .*(claude|codex)' \
+  "$msg" > "$msg.tmp"
+mv "$msg.tmp" "$msg"
+
+case "$(head -n1 "$msg")" in
+  Merge*|Revert*|fixup!*|squash!*|amend!*) ;;
+  [[:alnum:][:punct:]]*)
+    echo "commit-msg: start the subject with a gitmoji, e.g. '✨ feat: …' (see Dev-Utilities/gitPrefixes.md)" >&2
+    exit 1 ;;
+esac
+
+# core.hooksPath hides the repo's own hooks; still run its commit-msg if it has one.
+hook="$(git rev-parse --git-dir)/hooks/commit-msg"
+[ -x "$hook" ] && exec "$hook" "$msg"
+exit 0

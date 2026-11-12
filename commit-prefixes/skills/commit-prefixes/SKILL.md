@@ -18,13 +18,17 @@ Apply these rules to every commit message:
   - `🧪 test`
   - `🚀 init`
   - `🎨 style`
+  - `💄 ui`
+  - `⚡️ perf`
+  - `🔒️ security`
+  - `🔖 release`
   - `👷 ci`
   - `🚧 wip`
   - `🔧 chore`
   - `🔀 merge`
 - Keep the subject concise and do not end it with a period.
 - When the change is substantial, include a body explaining what changed and why.
-- Never add AI attribution, `Co-Authored-By`, or generated-content lines.
+- Never add AI attribution, `Co-Authored-By`, or generated-content lines, and never commit as an AI: the author and committer must be the developer (check `git config user.name` and `user.email` before the first commit).
 
 Choose the type that matches the primary purpose of the change. Use `merge` only for merge commits and `wip` only when the commit is intentionally incomplete.
 

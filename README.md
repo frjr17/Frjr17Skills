@@ -6,6 +6,7 @@ Agent Skills marketplace. Ships:
 - **panama-tech-compliance** — audit a system against Panamanian technology law (Ley 81 de 2019 / ANTAI, Ley 51 de 2008, factura electrónica / SFEP, Ley 45 de 2007 / ACODECO, plus fintech, health, public-sector and accessibility regimes). Reports code findings separately from the trámites no code can satisfy. Pre-lawyer triage, not legal advice.
 - **workflow** — `/plan-phases` turns a proposal or review into `docs/PLAN_<NAME>.md` with a decisions table; `/phase` carries out a phase or a range to its definition of done; `/all-phases` runs every remaining phase of the plan back to back (both run on Sonnet).
 - **commit-prefixes** — enforces English Git commit subjects with approved gitmoji type prefixes and explanatory bodies.
+- **ai-config** — my rules for Claude Code and Codex, the commit guard (no AI author or attribution, gitmoji subjects) and a SessionStart hook that, in cloud sessions, commits as the developer and prints the rules. No personal data: the identity comes from `GIT_COMMIT_NAME` / `GIT_COMMIT_EMAIL` in the environment, else the repo's latest non-AI author. Installed on my machines by Frjr17Setup's `aiConfig.sh`.
 - **skill-audit** — reports which skills are enabled, installed but off, or only addable; recommends up to 10 that fit a task, in run order; flags duplicates; lints skills (`health`); and runs every pick in sequence (`run-all`).
 
 ## Install — Option B: plugin (recommended, versioned, updatable)
@@ -17,6 +18,7 @@ Agent Skills marketplace. Ships:
 /plugin install workflow@frjr17-skills
 /plugin install commit-prefixes@frjr17-skills
 /plugin install skill-audit@frjr17-skills
+/plugin install ai-config@frjr17-skills
 ```
 
 Then `/harden-web-security` in Claude Code, or just ask to "harden security" / "run a security review". For the compliance skill: `/panama-tech-compliance`, or ask about "Ley 81", "protección de datos", "factura electrónica", or "cumplimiento legal en Panamá". Update later with `/plugin update`.
