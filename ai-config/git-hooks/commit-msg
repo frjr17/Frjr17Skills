@@ -15,7 +15,7 @@ if printf '%s' "$ident" | grep -qiE 'noreply@(anthropic|openai)\.com|(^| )(claud
   exit 1
 fi
 
-grep -viE '^(co-authored-by:.*(claude|codex|anthropic|openai)|claude-session:)|generated with .*(claude|codex)' \
+grep -viE '^(co-authored-by:.*(claude|codex|anthropic|openai)|claude-session:)|generated (with|by) .*(claude|codex)' \
   "$msg" > "$msg.tmp"
 mv "$msg.tmp" "$msg"
 
